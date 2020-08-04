@@ -15,12 +15,12 @@ IsValidLight(lightid)
 SetLightIntensity(lightid, intensity)
 SetLightColor(lightid, r, g, b, a)
 SetLightRadius(lightid, radius)
-SetLightDimension(soundid, dimension)
-GetLightDimension(soundid)
-SetLightLocation(soundid, x, y, z)
-GetLightLocation(soundid)
+SetLightDimension(lightid, dimension)
+GetLightDimension(lightid)
+SetLightLocation(lightid, x, y, z)
+GetLightLocation(lightid)
 GetAttachedLights(attach, id)
-IsAttachedLight3D(soundid)
+IsAttachedLight3D(lightid)
 ```
 - lighttype : 3 types: 
 ```Lua 
