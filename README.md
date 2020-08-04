@@ -20,7 +20,7 @@ GetLightDimension(lightid)
 SetLightLocation(lightid, x, y, z)
 GetLightLocation(lightid)
 GetAttachedLights(attach, id)
-IsAttachedLight3D(lightid)
+IsAttachedLight(lightid)
 ```
 - lighttype : 3 types: 
 ```Lua 
