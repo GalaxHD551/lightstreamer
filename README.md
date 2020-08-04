@@ -65,6 +65,7 @@ lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Sp
 #### Example Usage 
 ```Lua
 lr = ImportPackage("lightstreamer")
+
 function OnPackageStart()
 	local light = lr.CreateLight(126016.046875, 81475.203125, 1500.0, 0.0, 0.0, 0.0, "Point")
 	lr.SetLightIntensity(light, 100000)
