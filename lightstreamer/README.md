@@ -47,7 +47,8 @@ https://dev.playonset.com/wiki/PlayerBones
 https://dev.playonset.com/wiki/VehicleBones
 - You can destroy attach lights with DestroyLight
 
-- IMPORTANT : 
+### IMPORTANT : 
+
 r, g, b, a are in linear color, see :
 ```Lua
 -- Red color
