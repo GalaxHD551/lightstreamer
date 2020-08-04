@@ -60,6 +60,7 @@ x, y, z in AttachedLight are Relative Location from the attached object, see :
 lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```
 
+- TIPS : You're not forced to Destroy a light to "shut down" it, you can juste set the color to 0.0, 0.0, 0.0 
 
 #### Example Usage 
 ```Lua
