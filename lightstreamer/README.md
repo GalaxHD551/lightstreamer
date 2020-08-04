@@ -55,7 +55,7 @@ r, g, b, a are in linear color, see :
 SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
 -- value goes from 0.0 to 1.0
 ```
-x, y, z in AttachedLight are Relative Location from the attached object ! see :
+x, y, z in AttachedLight are Relative Location from the attached object, see :
 ```Lua
 lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```
