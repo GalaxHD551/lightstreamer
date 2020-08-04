@@ -55,12 +55,12 @@ r, g, b, a are in linear color, see :
 SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
 -- value goes from 0.0 to 1.0
 ```
+- TIP : You're not forced to Destroy a light to "shut down" it, you can just set the color to: 0.0, 0.0, 0.0 
+
 x, y, z in AttachedLight are Relative Location from the attached object, see :
 ```Lua
 lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```
-
-- TIPS : You're not forced to Destroy a light to "shut down" it, you can juste set the color to 0.0, 0.0, 0.0 
 
 #### Example Usage 
 ```Lua
