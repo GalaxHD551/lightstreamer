@@ -4,7 +4,7 @@ Serverside streamed lights.
 
 This package allows you to add an unlimited amount of lights in the game world.
 
-See here an exemple of utilisation : https://youtu.be/CKusuBYyBPE
+See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE&feature=youtu.be
 
 ### Exported server functions
 ```Lua
