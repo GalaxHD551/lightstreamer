@@ -38,6 +38,7 @@ Using Rotation is useless with a PointLight
 - id: entity id
 - intensity: default 5000.0
 - radius: default 6000.0
+
 13000 is the max radius where the light will be streamed by the game ,beyond this limit this is useless.
 - bone: string argument, see the WIKI for details:
 
@@ -47,7 +48,7 @@ https://dev.playonset.com/wiki/VehicleBones
 - You can destroy attach lights with DestroyLight
 
 - IMPORTANT : 
-r, g, b, a are in linear color ! see :
+r, g, b, a are in linear color, see :
 ```Lua
 -- Red color
 SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
