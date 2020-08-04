@@ -1,4 +1,4 @@
-## Sound Streamer
+## Light Streamer
 
 Serverside streamed lights.
 
