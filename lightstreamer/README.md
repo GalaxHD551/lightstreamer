@@ -47,7 +47,7 @@ https://dev.playonset.com/wiki/VehicleBones
 - You can destroy attach lights with DestroyLight
 
 - IMPORTANT : 
-r,g,b,a are in linear color ! see :
+r, g, b, a are in linear color ! see :
 ```Lua
 -- Red color
 SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
@@ -55,7 +55,7 @@ SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
 ```
 x, y, z in AttachedLight are Relative Location from the attached object ! see :
 ```Lua
-	lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
+lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```
 
 
