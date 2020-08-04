@@ -9,7 +9,7 @@ See here an exemple of utilisation : https://youtu.be/CKusuBYyBPE
 ### Exported server functions
 ```Lua
 CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, a, intensity, radius)
-CreateAttachedSound3D(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, a, intensity, radius)
+CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, a, intensity, radius)
 DestroyLight(lightid)
 IsValidLight(lightid)
 SetLightIntensity(lightid, intensity)
