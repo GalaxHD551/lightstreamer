@@ -38,7 +38,9 @@ Using Rotation is useless with a PointLight
 - radius: default 6000.0
 13000 is the max radius where the light will be streamed by the game ,beyond this limit this is useless.
 - bone: string argument, see the WIKI for details:
+
 https://dev.playonset.com/wiki/PlayerBones
+
 https://dev.playonset.com/wiki/VehicleBones
 - You can destroy attach lights with DestroyLight
 
