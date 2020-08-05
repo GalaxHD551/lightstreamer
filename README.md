@@ -37,7 +37,7 @@ Using Rotation is useless with a PointLight
 - attach: ATTACH_VEHICLE, ATTACH_PLAYER, ATTACH_OBJECT, ATTACH_NPC
 - id: entity id
 - intensity: default 5000.0
-- radius: default 6000.0
+- (stream)radius: default 6000.0
 
 13000 is the max radius where the light will be streamed by the game ,beyond this limit this is useless.
 - bone: string argument, see the WIKI for details:
