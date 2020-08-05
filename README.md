@@ -76,7 +76,7 @@ https://dev.playonset.com/wiki/VehicleBones
 
 ### IMPORTANT : 
 
-r, g, b, are in linear color, see :
+- r, g, b, are in linear color, see :
 ```Lua
 -- Red color
 SetLightColor(lightid, 1.0, 0.0, 0.0)
