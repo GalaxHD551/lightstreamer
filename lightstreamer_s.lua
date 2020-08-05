@@ -423,7 +423,7 @@ AddFunctionExport("SetLightStreamRadius", function(object, radius)
 
 	radius = radius or 6000.0
 
-	if StreamedSounds[object] == nil then
+	if StreamedLights[object] == nil then
 		return false
 	end
 
