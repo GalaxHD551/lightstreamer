@@ -5,11 +5,6 @@ https://github.com/BlueMountainsIO/OnsetLuaScripts/tree/master/soundstreamer
 Modified By GalaxHD551
 ]]--
 
-function OnScriptError(message)
-	AddPlayerChat('<span color="#ff0000bb" style="bold" size="10">'..message..'</>')
-end
-AddEvent("OnScriptError", OnScriptError)
-
 local StreamedLights = { }
 
 -- Expose attach types like on the server.
