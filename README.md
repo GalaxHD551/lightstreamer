@@ -8,12 +8,15 @@ See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE
 
 ### Exported server functions
 ```Lua
-CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, a, intensity, radius)
-CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, a, intensity, radius)
+CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, intensity, radius)
+CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, intensity, radius)
 DestroyLight(lightid)
 IsValidLight(lightid)
 SetLightIntensity(lightid, intensity)
+SetIntensityUnits(lightid, intensity)
 SetLightColor(lightid, r, g, b, a)
+SetLightAttenuationRadius(lightid, radius)
+SetCastShadows(lightid, radius)
 SetLightStreamRadius(lightid, radius)
 SetLightDimension(lightid, dimension)
 GetLightDimension(lightid)
@@ -22,17 +25,41 @@ GetLightLocation(lightid)
 GetAttachedLights(attach, id)
 IsAttachedLight(lightid)
 ```
-- lighttype : 3 types: 
+
+#### lighttype : 3 types can be used
+
 ```Lua 
-"Point"
-"Spot" 
-"Rect"
+POINTLIGHT : "Point"
+SPOTLIGHT : "Spot" 
+RECTLIGHT : "Rect"
 ```
-see the UE4 doc for details:
+
+See the UE4 doc for details about the differents light types :
 
 https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTypes/index.html
 
-Using Rotation is useless with a PointLight
+### SPOT LIGHT FUNCTION :
+```Lua 
+SetOuterConeAngle(lightid, degree)
+```
+
+### POINT LIGHT FUNCTIONS :
+```Lua 
+SetLightFalloffExponent(lightid, fallof)
+SetSoftSourceRadius(lightid, radius)
+SetSourceLength(lightid, lenght)
+SetSourceRadius(lightit, radius)
+```
+
+### RECT LIGHT FUNCTIONS :
+```Lua 
+SetBarnDoorAngle(lightid, degree)
+SetBarnDoorLength(lightid, lenght)
+SetSourceHeight(lightid, height)
+SetSourceWidth(lightid, width)
+```
+
+### Data
 
 - attach: ATTACH_VEHICLE, ATTACH_PLAYER, ATTACH_OBJECT, ATTACH_NPC
 - id: entity id
@@ -52,12 +79,13 @@ https://dev.playonset.com/wiki/VehicleBones
 r, g, b, a are in linear color, see :
 ```Lua
 -- Red color
-SetLightColor(lightid, 1.0, 0.0, 0.0, 0.0)
+SetLightColor(lightid, 1.0, 0.0, 0.0)
 -- value goes from 0.0 to 1.0
 ```
-- TIP : You're not forced to Destroy a light to "shut down" it, you can just set the color to: 0.0, 0.0, 0.0 
+- TIP : You're not forced to Destroy a light to "shut it down", you can just set the color to: 0.0, 0.0, 0.0 
+- TIP 2 : Rotation is not necessary with a PointLight
 
-x, y, z in AttachedLight are Relative Location from the attached object, see :
+- x, y, z in are Relative Location for an attached function, see :
 ```Lua
 lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```

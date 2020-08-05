@@ -100,7 +100,7 @@ AddEvent("OnObjectStreamIn", function(object)
 
 		if StreamedLights[object].light == false then
 			if IsGameDevMode() then
-				local msg = "WARNING: The object is no more valid to create the light."
+				local msg = "ERROR: The object is no more valid to create the light."
 				AddPlayerChat('<span color="#ff0000bb" style="bold" size="10">'..msg..'</>')
 				print(msg)
 			end
@@ -109,7 +109,7 @@ AddEvent("OnObjectStreamIn", function(object)
 		else
 			
 			StreamedLights[object].light:SetRelativeRotation(FRotator(_lightStream.rx, _lightStream.ry, _lightStream.rz))
-			StreamedLights[object].light:SetLightColor(FLinearColor(_lightStream.r, _lightStream.g, _lightStream.b, _lightStream.a), true)
+			StreamedLights[object].light:SetLightColor(FLinearColor(_lightStream.r, _lightStream.g, _lightStream.b, 1.0), true)
 			StreamedLights[object].light:SetIntensity(_lightStream.intensity)
 
 		end
@@ -124,7 +124,7 @@ end)
 
 AddEvent("OnObjectStreamOut", function(object)
 
-	-- When the dummy object is streamed out make sure to destroy the light
+	-- When the object containing the light is streamed out make sure to destroy the light
 	if StreamedLights[object] ~= nil then
 		StreamedLights[object].light:Destroy()
 
@@ -144,25 +144,54 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 	end
 
 	if PropertyName == "_lightStream" then
-		
-		local CurrentPV = GetObjectPropertyValue(object, PropertyName)
-		if CurrentPV.radius ~= PropertyValue.radius then
-			StreamedLights[object].light:Destroy()
-			local ObjectActor = GetObjectActor(object)
-    		if PropertyValue.lighttype == "Spot" then
-				StreamedLights[object].light = ObjectActor:AddComponent(USpotLightComponent.Class())
-			elseif PropertyValue.lighttype == "Point" then
-				StreamedLights[object].light = ObjectActor:AddComponent(UPointLightComponent.Class())
-			elseif _lightStream.lighttype == "Rect" then
-				StreamedLights[object].light = ObjectActor:AddComponent(URectLightComponent.Class())
+
+		if PropertyValue.lighttype == "Spot" then
+			if PropertyValue.spot_angle ~= nil then
+				StreamedLights[object].light:SetOuterConeAngle(PropertyValue.spot_angle)
+			end
+		elseif PropertyValue.lighttype == "Point" then
+			if PropertyValue.point_fallof ~= nil then
+				StreamedLights[object].light:SetLightFalloffExponent(PropertyValue.point_fallof)
+			end
+			if PropertyValue.point_softradius ~= nil then
+				StreamedLights[object].light:SetSoftSourceRadius(PropertyValue.point_softradius)
+			end
+			if PropertyValue.point_lenght ~= nil then
+				StreamedLights[object].light:SetSourceLength(PropertyValue.point_lenght)
+			end
+			if PropertyValue.point_radius ~= nil then
+				StreamedLights[object].light:SetSourceRadius(PropertyValue.point_radius)
+			end
+		elseif _lightStream.lighttype == "Rect" then
+			if PropertyValue.rect_angle ~= nil then
+				StreamedLights[object].light:SetBarnDoorAngle(PropertyValue.rect_angle)
+			end
+			if PropertyValue.rect_lenght ~= nil then
+				StreamedLights[object].light:SetBarnDoorLength(PropertyValue.rect_lenght)
+			end
+			if PropertyValue.rect_height ~= nil then
+				StreamedLights[object].light:SetSourceHeight(PropertyValue.rect_height)
+			end
+			if PropertyValue.rect_width ~= nil then
+				StreamedLights[object].light:SetSourceWidth(PropertyValue.rect_width)
 			end
 		end
 
 		
 		StreamedLights[object].light:SetRelativeRotation(FRotator(PropertyValue.rx, PropertyValue.ry, PropertyValue.rz))
-		StreamedLights[object].light:SetLightColor(FLinearColor(PropertyValue.r, PropertyValue.g, PropertyValue.b, PropertyValue.a), true)
+		StreamedLights[object].light:SetLightColor(FLinearColor(PropertyValue.r, PropertyValue.g, PropertyValue.b, 1.0), true)
 		StreamedLights[object].light:SetIntensity(PropertyValue.intensity)
-	
+
+		if PropertyValue.attenuation_radius ~= nil then
+			StreamedLights[object].light:SetAttenuationRadius(PropertyValue.attenuation_radius)
+		end
+		if PropertyValue.intensityU ~= nil then
+			StreamedLights[object].light:SetIntensityUnits(PropertyValue.intensityU)
+		end
+		if PropertyValue.shadow ~= nil then
+			StreamedLights[object].light:SetCastShadows(PropertyValue.shadow)
+		end
+
 	end
 
 end)
