@@ -26,7 +26,7 @@ GetAttachedLights(attach, id)
 IsAttachedLight(lightid)
 ```
 
-### lighttype : 3 types can be used
+#### lighttype : 3 types can be used
 
 ```Lua 
 POINTLIGHT : "Point"
@@ -38,25 +38,25 @@ See the UE4 doc for details about the differents light types :
 
 https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTypes/index.html
 
-## SPOT LIGHT FUNCTION :
+### SPOT LIGHT FUNCTION :
 ```Lua 
 	SetOuterConeAngle(lightid, degree)
 ```
 
-## POINT LIGHT FUNCTIONS :
+### POINT LIGHT FUNCTIONS :
 ```Lua 
-	SetLightFalloffExponent(lightid, fallof)
-	SetSoftSourceRadius(lightid, radius)
-	SetSourceLength(lightid, lenght)
-	SetSourceRadius(lightit, radius)
+SetLightFalloffExponent(lightid, fallof)
+SetSoftSourceRadius(lightid, radius)
+SetSourceLength(lightid, lenght)
+SetSourceRadius(lightit, radius)
 ```
 
-## RECT LIGHT FUNCTIONS :
+### RECT LIGHT FUNCTIONS :
 ```Lua 
-	SetBarnDoorAngle(lightid, degree)
-	SetBarnDoorLength(lightid, lenght)
-	SetSourceHeight(lightid, height)
-	SetSourceWidth(lightid, width)
+SetBarnDoorAngle(lightid, degree)
+SetBarnDoorLength(lightid, lenght)
+SetSourceHeight(lightid, height)
+SetSourceWidth(lightid, width)
 ```
 
 ### Data
