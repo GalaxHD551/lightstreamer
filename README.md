@@ -8,8 +8,8 @@ See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE
 
 ### Exported server functions
 ```Lua
-CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, a, intensity, radius)
-CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, a, intensity, radius)
+CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, intensity, radius)
+CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, intensity, radius)
 DestroyLight(lightid)
 IsValidLight(lightid)
 SetLightIntensity(lightid, intensity)
