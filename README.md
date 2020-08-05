@@ -85,7 +85,7 @@ SetLightColor(lightid, 1.0, 0.0, 0.0)
 - TIP : You're not forced to Destroy a light to "shut it down", you can just set the color to: 0.0, 0.0, 0.0 
 - TIP 2 : Rotation is not necessary with a PointLight
 
-- x, y, z are relative rocation for an attached light, see :
+- x, y, z are relative location for an attached light, see :
 ```Lua
 lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
 ```
