@@ -40,7 +40,7 @@ https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTyp
 
 ### SPOT LIGHT FUNCTION :
 ```Lua 
-	SetOuterConeAngle(lightid, degree)
+SetOuterConeAngle(lightid, degree)
 ```
 
 ### POINT LIGHT FUNCTIONS :
