@@ -38,12 +38,12 @@ See the UE4 doc for details about the differents light types :
 
 https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTypes/index.html
 
-### SPOT LIGHT FUNCTION :
+### Spot light function :
 ```Lua 
 SetOuterConeAngle(lightid, degree)
 ```
 
-### POINT LIGHT FUNCTIONS :
+### Point light functions :
 ```Lua 
 SetLightFalloffExponent(lightid, fallof)
 SetSoftSourceRadius(lightid, radius)
@@ -51,7 +51,7 @@ SetSourceLength(lightid, lenght)
 SetSourceRadius(lightit, radius)
 ```
 
-### RECT LIGHT FUNCTIONS :
+### Rect light functions :
 ```Lua 
 SetBarnDoorAngle(lightid, degree)
 SetBarnDoorLength(lightid, lenght)
