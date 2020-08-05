@@ -194,19 +194,19 @@ AddFunctionExport("SetLightColor", function(object, r, g, b, a)
 	return true
 end)
 
-AddFunctionExport("SetLightRadius", function(object, radius)
+AddFunctionExport("SetLightStreamRadius", function(object, radius)
 	if object == nil then
 		return false
 	end
 
 	radius = radius or 6000.0
 
-	if StreamedSounds[object] == nil then
+	if StreamedLights[object] == nil then
 		return false
 	end
 
-	StreamedSounds[object].radius = radius
-	SetObjectPropertyValue(object, "_soundStream", StreamedSounds[object])
+	StreamedLights[object].radius = radius
+	SetObjectPropertyValue(object, "_lightStream", StreamedLights[object])
 	return true
 end)
 
