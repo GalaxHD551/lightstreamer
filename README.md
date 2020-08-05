@@ -26,7 +26,7 @@ GetAttachedLights(attach, id)
 IsAttachedLight(lightid)
 ```
 
-# lighttype : 3 types can be used
+### lighttype : 3 types can be used
 
 ```Lua 
 POINTLIGHT : "Point"
@@ -58,6 +58,8 @@ https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/LightTyp
 	SetSourceHeight(lightid, height)
 	SetSourceWidth(lightid, width)
 ```
+
+### Data
 
 - attach: ATTACH_VEHICLE, ATTACH_PLAYER, ATTACH_OBJECT, ATTACH_NPC
 - id: entity id
