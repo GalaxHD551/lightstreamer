@@ -25,13 +25,7 @@ if ATTACH_NPC == nil then
 end
 
 AddEvent("OnPackageStop", function()
-
-	for k, v in pairs(StreamedLights) do
-		DestroySound(v.light)
-	end
-
 	StreamedLights = nil
-
 end)
 
 AddEvent("OnObjectStreamIn", function(object)
