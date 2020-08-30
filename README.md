@@ -1,4 +1,4 @@
-## Light Streamer
+# Light Streamer
 
 Serverside streamed lights.
 
