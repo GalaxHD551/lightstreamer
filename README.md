@@ -9,6 +9,7 @@ See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE
 Here, you will find informations about the package, like functions and codes exemple.
 
 # Table of content
+## [Changelog](https://github.com/GalaxHD551/lightstreamer/wiki/Changelog)
 ## [Import package](https://dev.playonset.com/wiki/ImportPackage)
 ## [Lighting basics](https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/Basics/index.html)
 ## [Light type](https://github.com/GalaxHD551/lightstreamer/wiki/Light-type)
@@ -18,8 +19,6 @@ Here, you will find informations about the package, like functions and codes exe
   - ### [Point light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#pointlight-functions)
   - ### [Spot light function](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#spotlight-functions)
   - ### [Rect light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#rectlight-functions)
-## [Changelog](https://github.com/GalaxHD551/lightstreamer/wiki/Changelog)
-  
 
 
 #### Example Usage 
