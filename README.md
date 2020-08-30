@@ -18,6 +18,7 @@ Here, you will find informations about the package, like functions and codes exe
   - ### [Point light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#pointlight-functions)
   - ### [Spot light function](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#spotlight-functions)
   - ### [Rect light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#rectlight-functions)
+## [Changelog](https://github.com/GalaxHD551/lightstreamer/wiki/Changelog)
   
 
 
