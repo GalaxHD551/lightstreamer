@@ -1,6 +1,6 @@
 {
-	"author": "Blue Mountains",
-	"version": "1.0",
+	"author": "GalaxHD551",
+	"version": "1.2",
 	"server_scripts": [
 		"lightstreamer_s.lua"
 	],
