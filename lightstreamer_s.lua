@@ -51,7 +51,7 @@ AddFunctionExport("CreateLight", function (x, y, z, rx, ry, rz, lighttype, r, g,
 	_lightStream.g = g
 	_lightStream.b = b
 	_lightStream.intensity = intensity
-	_lightStream.intensity = radius
+	_lightStream.radius = radius
 
 	SetObjectPropertyValue(object, "_lightStream", _lightStream)
 
