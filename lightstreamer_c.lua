@@ -1,9 +1,13 @@
 --[[
 This script is a modification of the soundstreamer package : 
 https://github.com/BlueMountainsIO/OnsetLuaScripts/tree/master/soundstreamer
-
 Modified By GalaxHD551
 ]]--
+
+function OnScriptError(message)
+	AddPlayerChat('<span color="#ff0000bb" style="bold" size="10">'..message..'</>')
+end
+AddEvent("OnScriptError", OnScriptError)
 
 local StreamedLights = { }
 
@@ -79,28 +83,26 @@ AddEvent("OnObjectStreamIn", function(object)
 		end
 
 		-- Create the actual light
-		if _lightStream.lighttype == "Spot" then
+		if _lightStream.lighttype == "SPOTLIGHT" then
 			StreamedLights[object].light = ObjectActor:AddComponent(USpotLightComponent.Class())
-		elseif _lightStream.lighttype == "Point" then
+		elseif _lightStream.lighttype == "POINTLIGHT" then
 			StreamedLights[object].light = ObjectActor:AddComponent(UPointLightComponent.Class())
-		elseif _lightStream.lighttype == "Rect" then
+		elseif _lightStream.lighttype == "RECTLIGHT" then
     		StreamedLights[object].light = ObjectActor:AddComponent(URectLightComponent.Class())
 		end
 
-		if StreamedLights[object].light == false then
+		if StreamedLights[object].light == false or StreamedLights[object].light == nil then
 			if IsGameDevMode() then
-				local msg = "ERROR: The object is no more valid to create the light."
+				local msg = "ERROR: An error occurred while creating the light."
 				AddPlayerChat('<span color="#ff0000bb" style="bold" size="10">'..msg..'</>')
 				print(msg)
 			end
 			StreamedLights[object] = nil
 			return
 		else
-			
-			StreamedLights[object].light:SetRelativeRotation(FRotator(_lightStream.rx, _lightStream.ry, _lightStream.rz))
-			StreamedLights[object].light:SetLightColor(FLinearColor(_lightStream.r, _lightStream.g, _lightStream.b, 1.0), true)
+			local r, g, b = HexToRGBAFloat(_lightStream.color)
+			StreamedLights[object].light:SetLightColor(FLinearColor(r, g, b, 1.0))
 			StreamedLights[object].light:SetIntensity(_lightStream.intensity)
-
 		end
 
 		if IsGameDevMode() then
@@ -134,12 +136,12 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 
 	if PropertyName == "_lightStream" then
 
-		if PropertyValue.lighttype == "Spot" then
+		if PropertyValue.lighttype == "SPOTLIGHT" then
 			if PropertyValue.spot_angle ~= nil then
 				StreamedLights[object].light:SetOuterConeAngle(PropertyValue.spot_angle)
 			end
-		elseif PropertyValue.lighttype == "Point" then
-			if PropertyValue.point_fallof ~= nil then
+		elseif PropertyValue.lighttype == "POINTLIGHT" then
+			if PropertyValue.point_falloff ~= nil then
 				StreamedLights[object].light:SetLightFalloffExponent(PropertyValue.point_fallof)
 			end
 			if PropertyValue.point_softradius ~= nil then
@@ -151,7 +153,7 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 			if PropertyValue.point_radius ~= nil then
 				StreamedLights[object].light:SetSourceRadius(PropertyValue.point_radius)
 			end
-		elseif _lightStream.lighttype == "Rect" then
+		elseif _lightStream.lighttype == "RECTLIGHT" then
 			if PropertyValue.rect_angle ~= nil then
 				StreamedLights[object].light:SetBarnDoorAngle(PropertyValue.rect_angle)
 			end
@@ -166,9 +168,8 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 			end
 		end
 
-		
-		StreamedLights[object].light:SetRelativeRotation(FRotator(PropertyValue.rx, PropertyValue.ry, PropertyValue.rz))
-		StreamedLights[object].light:SetLightColor(FLinearColor(PropertyValue.r, PropertyValue.g, PropertyValue.b, 1.0), true)
+		local r, g, b = HexToRGBAFloat(PropertyValue.color)
+		StreamedLights[object].light:SetLightColor(FLinearColor(r, g, b, 1.0))
 		StreamedLights[object].light:SetIntensity(PropertyValue.intensity)
 
 		if PropertyValue.attenuation_radius ~= nil then

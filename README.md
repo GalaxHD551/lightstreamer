@@ -8,13 +8,13 @@ See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE
 
 ### Exported server functions
 ```Lua
-CreateLight(x, y, z, rx, ry, rz, lighttype, r, g, b, intensity, radius)
-CreateAttachedLight(attach, id, x, y, z, rx, ry, rz, bone, lighttype, r, g, b, intensity, radius)
+CreateLight(lighttype, x, y, z[, rx, ry, rz, color, intensity, streamradius])
+SetLightAttached(lightid, attachtype, attachid[, x, y, z, rx, ry, rz, SocketName])
 DestroyLight(lightid)
 IsValidLight(lightid)
 SetLightIntensity(lightid, intensity)
 SetIntensityUnits(lightid, intensity)
-SetLightColor(lightid, r, g, b)
+SetLightColor(lightid, color)
 SetLightAttenuationRadius(lightid, radius)
 SetCastShadows(lightid, bEnable)
 SetLightStreamRadius(lightid, radius)
@@ -24,14 +24,22 @@ SetLightLocation(lightid, x, y, z)
 GetLightLocation(lightid)
 GetAttachedLights(attach, id)
 IsAttachedLight(lightid)
+SetLightDetached(lightid)
+
+SetLightRandomLoopColor(lightid, interval)
+StopLightRandomLoopColor(lightid)
+SetLightLoopRotation(lightid, xAxis, yAxis, zAxis[, speed])
+StopLightLoopRotation(lightid)
+SetLightFlash(lightid, interval)
+StopLightFlash(lightid)
 ```
 
 #### lighttype : 3 types can be used
 
 ```Lua 
-POINTLIGHT : "Point"
-SPOTLIGHT : "Spot" 
-RECTLIGHT : "Rect"
+POINTLIGHT : "POINTLIGHT"
+SPOTLIGHT : "SPOTLIGHT" 
+RECTLIGHT : "RECTLIGHT"
 ```
 
 See the UE4 doc for details about the differents light types :
@@ -62,12 +70,12 @@ SetSourceWidth(lightid, width)
 ### Data
 
 - attach: ATTACH_VEHICLE, ATTACH_PLAYER, ATTACH_OBJECT, ATTACH_NPC
-- id: entity id
+- attachid: entity id
 - intensity: default 5000.0
-- (stream)radius: default 6000.0
+- streamradius: default 12000.0
+13000 is the max radius where the light will be streamed by the game ,beyond this limit the light will be not visible at all.
 
-13000 is the max radius where the light will be streamed by the game ,beyond this limit this is useless.
-- bone: string argument, see the WIKI for details:
+- SocketName: string argument, see the WIKI for details:
 
 https://dev.playonset.com/wiki/PlayerBones
 
@@ -76,18 +84,18 @@ https://dev.playonset.com/wiki/VehicleBones
 
 ### IMPORTANT : 
 
-- r, g, b, are in linear color, see :
+- Color :
 ```Lua
 -- Red color
-SetLightColor(lightid, 1.0, 0.0, 0.0)
--- value goes from 0.0 to 1.0
+color = RGB(255, 0, 0)
+SetLightColor(lightid, color)
 ```
-- TIP : You're not forced to Destroy a light to "shut it down", you can just set the color to: 0.0, 0.0, 0.0 
-- TIP 2 : Rotation is not necessary with a PointLight
+- TIP : You're not forced to Destroy a light to "shut it down", you can just set the color to black
+- TIP 2 : Rotation isn't necessary with PointLight
 
 - x, y, z are relative location for an attached light, see :
 ```Lua
-lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Spot")
+lr.SetLightAttached(lightid, ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r")
 ```
 
 #### Example Usage 
@@ -95,14 +103,9 @@ lr.CreateAttachedLight(ATTACH_PLAYER, player, -80, 0, 1, 90, 0, 0, "hand_r", "Sp
 lr = ImportPackage("lightstreamer")
 
 function OnPackageStart()
-	local light = lr.CreateLight(126016.046875, 81475.203125, 1500.0, 0.0, 0.0, 0.0, "Point")
+	local light = lr.CreateLight("POINTLIGHT", 126016.046875, 81475.203125, 1550.0)
 	lr.SetLightIntensity(light, 100000)
-	CreateTimer(function()
-		r = RandomFloat(0, 1)
-		g = RandomFloat(0, 1)
-		b = RandomFloat(0, 1)
-		lr.SetLightColor(light, r, g, b)
-	end, 500)
+	lr.SetLightRandomLoopColor(light, 2000)
 end
 AddEvent("OnPackageStart", OnPackageStart)
 ```
