@@ -15,10 +15,10 @@ Here, you will find informations about the package, like functions and codes exe
 ## [Light type](https://github.com/GalaxHD551/lightstreamer/wiki/Light-type)
 ## [Functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions)
   - ### [Basics functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#functions-used-by-all-lights-types)
-  - ### [Customs functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#customs-functions)
   - ### [Point light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#pointlight-functions)
   - ### [Spot light function](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#spotlight-functions)
   - ### [Rect light functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#rectlight-functions)
+  - ### [Customs functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions#customs-functions)
 
 
 #### Example Usage 
