@@ -209,7 +209,7 @@ AddFunctionExport("SetLightFalloffExponent", function(lightid, falloff)
 		return false
 	end
 
-	if StreamedLights[lightid].lighttype ~= "POINTLIGHT" then
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
 		return false
 	end
 
@@ -245,7 +245,7 @@ AddFunctionExport("SetSourceLength", function(lightid, lenght)
 		return false
 	end
 
-	if StreamedLights[lightid].lighttype ~= "POINTLIGHT" then
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
 		return false
 	end
 
@@ -263,7 +263,7 @@ AddFunctionExport("SetSourceRadius", function(lightid, radius)
 		return false
 	end
 
-	if StreamedLights[lightid].lighttype ~= "POINTLIGHT" then
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
 		return false
 	end
 
