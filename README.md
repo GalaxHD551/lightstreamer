@@ -10,7 +10,7 @@ Here, you will find informations about the package, like functions and codes exe
 
 # Table of content
 ## [Changelog](https://github.com/GalaxHD551/lightstreamer/releases)
-## [Import package](https://dev.playonset.com/wiki/ImportPackage)
+## [Setting up the package](https://github.com/GalaxHD551/lightstreamer/wiki/Setting-up-the-package)
 ## [Lighting basics](https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/Basics/index.html)
 ## [Light type](https://github.com/GalaxHD551/lightstreamer/wiki/Light-type)
 ## [Functions](https://github.com/GalaxHD551/lightstreamer/wiki/Functions)
