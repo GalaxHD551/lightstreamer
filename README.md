@@ -9,7 +9,7 @@ See here an exemple of utilisation : https://www.youtube.com/watch?v=CKusuBYyBPE
 Here, you will find informations about the package, like functions and codes exemple.
 
 # Table of content
-## [Changelog](https://github.com/GalaxHD551/lightstreamer/wiki/Changelog)
+## [Changelog](https://github.com/GalaxHD551/lightstreamer/releases)
 ## [Import package](https://dev.playonset.com/wiki/ImportPackage)
 ## [Lighting basics](https://docs.unrealengine.com/en-US/Engine/Rendering/LightingAndShadows/Basics/index.html)
 ## [Light type](https://github.com/GalaxHD551/lightstreamer/wiki/Light-type)
