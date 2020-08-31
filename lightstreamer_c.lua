@@ -4,29 +4,7 @@ https://github.com/BlueMountainsIO/OnsetLuaScripts/tree/master/soundstreamer
 Modified By GalaxHD551
 ]]--
 
-function OnScriptError(message)
-	AddPlayerChat('<span color="#ff0000bb" style="bold" size="10">'..message..'</>')
-end
-AddEvent("OnScriptError", OnScriptError)
-
 local StreamedLights = { }
-
--- Expose attach types like on the server.
-if ATTACH_NONE == nil then
-	ATTACH_NONE = 0
-end
-if ATTACH_PLAYER == nil then
-	ATTACH_PLAYER = 1
-end
-if ATTACH_VEHICLE == nil then
-	ATTACH_VEHICLE = 2
-end
-if ATTACH_OBJECT == nil then
-	ATTACH_OBJECT = 3
-end
-if ATTACH_NPC == nil then
-	ATTACH_NPC = 4
-end
 
 AddEvent("OnPackageStop", function()
 	StreamedLights = nil
@@ -55,33 +33,6 @@ AddEvent("OnObjectStreamIn", function(object)
 		-- Alos disable its collision
 		ObjectActor:SetActorEnableCollision(false)
 
-		local x, y, z
-
-		if _lightStream.is_attached == false then
-
-			x, y, z = GetObjectLocation(object)
-
-		elseif _lightStream.is_attached == true then
-
-			if _lightStream.attach == ATTACH_VEHICLE then
-				
-				x, y, z = GetVehicleLocation(_lightStream.id)
-
-			elseif _lightStream.attach == ATTACH_PLAYER then
-
-				x, y, z = GetPlayerLocation(_lightStream.id)
-
-			elseif _lightStream.attach == ATTACH_OBJECT then
-
-				x, y, z = GetObjectLocation(_lightStream.id)				
-
-			elseif _lightStream.attach == ATTACH_NPC then
-
-				x, y, z = GetNPCLocation(_lightStream.id)			
-
-			end
-		end
-
 		-- Create the actual light
 		if _lightStream.lighttype == "SPOTLIGHT" then
 			StreamedLights[object].light = ObjectActor:AddComponent(USpotLightComponent.Class())
@@ -102,7 +53,59 @@ AddEvent("OnObjectStreamIn", function(object)
 		else
 			local r, g, b = HexToRGBAFloat(_lightStream.color)
 			StreamedLights[object].light:SetLightColor(FLinearColor(r, g, b, 1.0))
+
+			if _lightStream.attenuation_radius ~= nil then
+				StreamedLights[object].light:SetAttenuationRadius(_lightStream.attenuation_radius)
+			end
+			if _lightStream.intensityU ~= nil then
+				StreamedLights[object].light:SetIntensityUnits(ELightUnits._lightStream.intensityU)
+			end
+			if _lightStream.shadow ~= nil then
+				StreamedLights[object].light:SetCastShadows(_lightStream.shadow)
+			end
+
 			StreamedLights[object].light:SetIntensity(_lightStream.intensity)
+
+			if _lightStream.lighttype == "SPOTLIGHT" then
+				if _lightStream.spot_angle ~= nil then
+					StreamedLights[object].light:SetOuterConeAngle(_lightStream.spot_angle)
+				end
+				if _lightStream.point_falloff ~= nil then
+					StreamedLights[object].light:SetLightFalloffExponent(_lightStream.point_fallof)
+				end
+				if _lightStream.point_lenght ~= nil then
+					StreamedLights[object].light:SetSourceLength(_lightStream.point_lenght)
+				end
+				if _lightStream.point_radius ~= nil then
+					StreamedLights[object].light:SetSourceRadius(_lightStream.point_radius)
+				end
+			elseif _lightStream.lighttype == "POINTLIGHT" then
+				if _lightStream.point_falloff ~= nil then
+					StreamedLights[object].light:SetLightFalloffExponent(_lightStream.point_fallof)
+				end
+				if _lightStream.point_softradius ~= nil then
+					StreamedLights[object].light:SetSoftSourceRadius(_lightStream.point_softradius)
+				end
+				if _lightStream.point_lenght ~= nil then
+					StreamedLights[object].light:SetSourceLength(_lightStream.point_lenght)
+				end
+				if _lightStream.point_radius ~= nil then
+					StreamedLights[object].light:SetSourceRadius(_lightStream.point_radius)
+				end
+			elseif _lightStream.lighttype == "RECTLIGHT" then
+				if _lightStream.rect_angle ~= nil then
+					StreamedLights[object].light:SetBarnDoorAngle(_lightStream.rect_angle)
+				end
+				if _lightStream.rect_lenght ~= nil then
+					StreamedLights[object].light:SetBarnDoorLength(_lightStream.rect_lenght)
+				end
+				if _lightStream.rect_height ~= nil then
+					StreamedLights[object].light:SetSourceHeight(_lightStream.rect_height)
+				end
+				if _lightStream.rect_width ~= nil then
+					StreamedLights[object].light:SetSourceWidth(_lightStream.rect_width)
+				end
+			end
 		end
 
 		if IsGameDevMode() then
@@ -136,9 +139,33 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 
 	if PropertyName == "_lightStream" then
 
+		local r, g, b = HexToRGBAFloat(PropertyValue.color)
+		StreamedLights[object].light:SetLightColor(FLinearColor(r, g, b, 1.0))
+		
+		if PropertyValue.attenuation_radius ~= nil then
+			StreamedLights[object].light:SetAttenuationRadius(PropertyValue.attenuation_radius)
+		end
+		if PropertyValue.intensityU ~= nil then
+			StreamedLights[object].light:SetIntensityUnits(ELightUnits.PropertyValue.intensityU)
+		end
+		if PropertyValue.shadow ~= nil then
+			StreamedLights[object].light:SetCastShadows(PropertyValue.shadow)
+		end
+
+		StreamedLights[object].light:SetIntensity(PropertyValue.intensity)
+
 		if PropertyValue.lighttype == "SPOTLIGHT" then
 			if PropertyValue.spot_angle ~= nil then
 				StreamedLights[object].light:SetOuterConeAngle(PropertyValue.spot_angle)
+			end
+			if PropertyValue.point_falloff ~= nil then
+				StreamedLights[object].light:SetLightFalloffExponent(PropertyValue.point_fallof)
+			end
+			if PropertyValue.point_lenght ~= nil then
+				StreamedLights[object].light:SetSourceLength(PropertyValue.point_lenght)
+			end
+			if PropertyValue.point_radius ~= nil then
+				StreamedLights[object].light:SetSourceRadius(PropertyValue.point_radius)
 			end
 		elseif PropertyValue.lighttype == "POINTLIGHT" then
 			if PropertyValue.point_falloff ~= nil then
@@ -153,7 +180,7 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 			if PropertyValue.point_radius ~= nil then
 				StreamedLights[object].light:SetSourceRadius(PropertyValue.point_radius)
 			end
-		elseif _lightStream.lighttype == "RECTLIGHT" then
+		elseif PropertyValue.lighttype == "RECTLIGHT" then
 			if PropertyValue.rect_angle ~= nil then
 				StreamedLights[object].light:SetBarnDoorAngle(PropertyValue.rect_angle)
 			end
@@ -167,21 +194,5 @@ AddEvent("OnObjectNetworkUpdatePropertyValue", function(object, PropertyName, Pr
 				StreamedLights[object].light:SetSourceWidth(PropertyValue.rect_width)
 			end
 		end
-
-		local r, g, b = HexToRGBAFloat(PropertyValue.color)
-		StreamedLights[object].light:SetLightColor(FLinearColor(r, g, b, 1.0))
-		StreamedLights[object].light:SetIntensity(PropertyValue.intensity)
-
-		if PropertyValue.attenuation_radius ~= nil then
-			StreamedLights[object].light:SetAttenuationRadius(PropertyValue.attenuation_radius)
-		end
-		if PropertyValue.intensityU ~= nil then
-			StreamedLights[object].light:SetIntensityUnits(PropertyValue.intensityU)
-		end
-		if PropertyValue.shadow ~= nil then
-			StreamedLights[object].light:SetCastShadows(PropertyValue.shadow)
-		end
-
 	end
-
 end)
