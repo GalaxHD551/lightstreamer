@@ -28,7 +28,7 @@ AddEvent("OnObjectStreamIn", function(object)
 
 		-- Set the scale to 0 and make it hidden
 		ObjectActor:SetActorScale3D(FVector(0.01, 0.01, 0.01))
-		ObjectActor:SetActorHiddenInGame(true)
+		GetObjectStaticMeshComponent(object):SetHiddenInGame(true)
 
 		-- Alos disable its collision
 		ObjectActor:SetActorEnableCollision(false)
