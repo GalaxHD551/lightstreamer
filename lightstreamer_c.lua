@@ -107,3 +107,257 @@ AddFunctionExport("GetStreamedLights", function()
 	end
 	return  _table
 end)
+
+AddFunctionExport("IsValidLight", function(lightid)
+	return StreamedLights[lightid] ~= nil
+end)
+
+AddFunctionExport("IsAttachedLight", function(lightid)
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].is_attached
+end)
+
+AddFunctionExport("GetLightColor", function(lightid)
+	if lightid == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].color
+end)
+
+AddFunctionExport("GetLightAttenuationRadius", function(lightid)
+	if lightid == nil or radius == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].attenuation_radius
+end)
+
+AddFunctionExport("GetLightIntensityUnits", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].intensityU
+end)
+
+AddFunctionExport("GetLightFalloffExponent", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].falloff
+end)
+
+AddFunctionExport("GetLightSoftSourceRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].soft_source_radius
+end)
+
+AddFunctionExport("GetLightSourceLength", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_lenght
+end)
+
+AddFunctionExport("GetLightSourceRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_radius
+end)
+
+AddFunctionExport("GetLightCastShadows", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	return StreamedLights[lightid].shadow
+end)
+
+AddFunctionExport("GetLightOuterConeAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "SPOTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].outer_cone
+end)
+
+AddFunctionExport("GetLightInnerConeAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "SPOTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].inner_cone
+end)
+
+AddFunctionExport("GetLightBarnDoorAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].barn_door_angle
+end)
+
+AddFunctionExport("GetLightBarnDoorLength", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].barn_door_lenght
+end)
+
+AddFunctionExport("GetLightSourceHeight", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_height
+end)
+
+AddFunctionExport("GetLightSourceWidth", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_width
+end)
+
+AddFunctionExport("GetLightStreamRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	return StreamedLights[lightid].stream_distance
+end)
+
+AddFunctionExport("GetLightLocation", function(lightid)
+	if lightid == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].is_attached == true then
+		return false
+	end
+
+	local x, y, z = GetObjectLocation(lightid)
+	return x, y, z
+end)
+
+AddFunctionExport("GetLightRotation", function(lightid)
+	if lightid == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	local rx, ry, rz = GetObjectRotation(lightid)
+	return rx, ry, rz
+end)
