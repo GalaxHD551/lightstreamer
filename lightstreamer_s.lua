@@ -31,7 +31,7 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 	rz = rz or 0.0
 	color = color or RGB(255, 255, 255)
 	intensity = intensity or 5000.0
-	radius = streamradius or 12000.0
+	stream_distance = streamradius or 12000.0
 
 	-- Create an object that will help us to attach the light to it
 	local lightid = CreateObject(1, x, y, z)
@@ -40,7 +40,7 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 		return false
 	end
 
-	SetObjectStreamDistance(lightid, radius)
+	SetObjectStreamDistance(lightid, stream_distance)
 	SetObjectRotation(lightid, rx, ry, rz)
 
 	local _lightStream = { }
@@ -48,7 +48,28 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 	_lightStream.lighttype = lighttype
 	_lightStream.color = color
 	_lightStream.intensity = intensity
-	_lightStream.radius = radius
+	_lightStream.stream_distance = stream_distance
+	_lightStream.attenuation_radius = 1000.0
+	_lightStream.shadow = true
+
+	if lighttype == "SPOTLIGHT" then
+		_lightStream.outer_cone = 44.0
+		_lightStream.inner_cone = 0.0
+		_lightStream.source_radius = 0.0
+		_lightStream.soft_source_radius = 0.0
+		_lightStream.source_lenght = 0.0
+		_lightStream.falloff = 0.0
+	elseif lighttype == "POINTLIGHT" then
+		_lightStream.source_radius = 0.0
+		_lightStream.soft_source_radius = 0.0
+		_lightStream.source_lenght = 0.0
+		_lightStream.falloff = 0.0
+	elseif lighttype == "RECTLIGHT" then
+		_lightStream.source_width = 64.0
+		_lightStream.source_height = 64.0
+		_lightStream.barn_door_angle = 88.0
+		_lightStream.barn_door_lenght = 20.0
+	end
 
 	SetObjectPropertyValue(lightid, "_lightStream", _lightStream)
 
@@ -133,6 +154,10 @@ AddFunctionExport("DestroyLight", function(lightid)
 	return DestroyObject(lightid)
 end)
 
+AddFunctionExport("GetAllLights", function()
+	return StreamedLights
+end)
+
 AddFunctionExport("IsValidLight", function(lightid)
 	return StreamedLights[lightid] ~= nil
 end)
@@ -172,6 +197,16 @@ AddFunctionExport("SetLightColor", function(lightid, color)
 	return true
 end)
 
+AddFunctionExport("GetLightColor", function(lightid)
+	if lightid == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].color
+end)
+
 AddFunctionExport("SetLightAttenuationRadius", function(lightid, radius)
 	if lightid == nil or radius == nil then
 		return false
@@ -186,7 +221,18 @@ AddFunctionExport("SetLightAttenuationRadius", function(lightid, radius)
 	return true
 end)
 
-AddFunctionExport("SetIntensityUnits", function(lightid, intensityU)
+AddFunctionExport("GetLightAttenuationRadius", function(lightid)
+	if lightid == nil or radius == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].attenuation_radius
+end)
+
+AddFunctionExport("SetLightIntensityUnits", function(lightid, intensityU)
 	if lightid == nil or intensityU == nil then
 		return false
 	end
@@ -198,6 +244,17 @@ AddFunctionExport("SetIntensityUnits", function(lightid, intensityU)
 	StreamedLights[lightid].intensityU = intensityU
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
+end)
+
+AddFunctionExport("GetLightIntensityUnits", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	return StreamedLights[lightid].intensityU
 end)
 
 AddFunctionExport("SetLightFalloffExponent", function(lightid, falloff)
@@ -213,12 +270,28 @@ AddFunctionExport("SetLightFalloffExponent", function(lightid, falloff)
 		return false
 	end
 
-	StreamedLights[lightid].point_falloff = falloff
+	StreamedLights[lightid].falloff = falloff
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetSoftSourceRadius", function(lightid, radius)
+AddFunctionExport("GetLightFalloffExponent", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].falloff
+end)
+
+AddFunctionExport("SetLightSoftSourceRadius", function(lightid, radius)
 	if lightid == nil or radius == nil then
 		return false
 	end
@@ -227,16 +300,32 @@ AddFunctionExport("SetSoftSourceRadius", function(lightid, radius)
 		return false
 	end
 
-	if StreamedLights[lightid].lighttype ~= "POINTLIGHT" then
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
 		return false
 	end
 
-	StreamedLights[lightid].point_softradius = radius
+	StreamedLights[lightid].soft_source_radius = radius
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetSourceLength", function(lightid, lenght)
+AddFunctionExport("GetLightSoftSourceRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].soft_source_radius
+end)
+
+AddFunctionExport("SetLightSourceLength", function(lightid, lenght)
 	if lightid == nil or lenght == nil then
 		return false
 	end
@@ -249,12 +338,28 @@ AddFunctionExport("SetSourceLength", function(lightid, lenght)
 		return false
 	end
 
-	StreamedLights[lightid].point_lenght = lenght
+	StreamedLights[lightid].source_lenght = lenght
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetSourceRadius", function(lightid, radius)
+AddFunctionExport("GetLightSourceLength", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_lenght
+end)
+
+AddFunctionExport("SetLightSourceRadius", function(lightid, radius)
 	if lightid == nil or radius == nil then
 		return false
 	end
@@ -267,12 +372,28 @@ AddFunctionExport("SetSourceRadius", function(lightid, radius)
 		return false
 	end
 
-	StreamedLights[lightid].point_radius = radius
+	StreamedLights[lightid].source_radius = radius
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetCastShadows", function(lightid, bEnable)
+AddFunctionExport("GetLightSourceRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype == "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_radius
+end)
+
+AddFunctionExport("SetLightCastShadows", function(lightid, bEnable)
 	if lightid == nil or bEnable == nil then
 		return false
 	end
@@ -286,7 +407,19 @@ AddFunctionExport("SetCastShadows", function(lightid, bEnable)
 	return true
 end)
 
-AddFunctionExport("SetOuterConeAngle", function(lightid, degree)
+AddFunctionExport("GetLightCastShadows", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	return StreamedLights[lightid].shadow
+end)
+
+AddFunctionExport("SetLightOuterConeAngle", function(lightid, degree)
 	if lightid == nil or degree == nil then
 		return false
 	end
@@ -299,12 +432,62 @@ AddFunctionExport("SetOuterConeAngle", function(lightid, degree)
 		return false
 	end
 
-	StreamedLights[lightid].spot_angle = degree
+	StreamedLights[lightid].outer_cone = degree
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetBarnDoorAngle", function(lightid, degree)
+AddFunctionExport("GetLightOuterConeAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "SPOTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].outer_cone
+end)
+
+AddFunctionExport("SetLightInnerConeAngle", function(lightid, degree)
+	if lightid == nil or degree == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "SPOTLIGHT" then
+		return false
+	end
+
+	StreamedLights[lightid].inner_cone = degree
+	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
+	return true
+end)
+
+AddFunctionExport("GetLightInnerConeAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "SPOTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].inner_cone
+end)
+
+AddFunctionExport("SetLightBarnDoorAngle", function(lightid, degree)
 	if lightid == nil or degree == nil then
 		return false
 	end
@@ -317,12 +500,28 @@ AddFunctionExport("SetBarnDoorAngle", function(lightid, degree)
 		return false
 	end
 
-	StreamedLights[lightid].rect_angle = degree
+	StreamedLights[lightid].barn_door_angle = degree
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetBarnDoorLength", function(lightid, lenght)
+AddFunctionExport("GetLightBarnDoorAngle", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].barn_door_angle
+end)
+
+AddFunctionExport("SetLightBarnDoorLength", function(lightid, lenght)
 	if lightid == nil or lenght == nil then
 		return false
 	end
@@ -335,12 +534,28 @@ AddFunctionExport("SetBarnDoorLength", function(lightid, lenght)
 		return false
 	end
 
-	StreamedLights[lightid].rect_lenght = lenght
+	StreamedLights[lightid].barn_door_lenght = lenght
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetSourceHeight", function(lightid, height)
+AddFunctionExport("GetLightBarnDoorLength", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].barn_door_lenght
+end)
+
+AddFunctionExport("SetLightSourceHeight", function(lightid, height)
 	if lightid == nil or height == nil then
 		return false
 	end
@@ -353,12 +568,28 @@ AddFunctionExport("SetSourceHeight", function(lightid, height)
 		return false
 	end
 
-	StreamedLights[lightid].rect_height = height
+	StreamedLights[lightid].source_height = height
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetSourceWidth", function(lightid, width)
+AddFunctionExport("GetLightSourceHeight", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_height
+end)
+
+AddFunctionExport("SetLightSourceWidth", function(lightid, width)
 	if lightid == nil or width == nil then
 		return false
 	end
@@ -371,13 +602,13 @@ AddFunctionExport("SetSourceWidth", function(lightid, width)
 		return false
 	end
 
-	StreamedLights[lightid].rect_width = width
+	StreamedLights[lightid].source_width = width
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
 end)
 
-AddFunctionExport("SetLightStreamRadius", function(lightid, radius)
-	if lightid == nil or radius == nil then
+AddFunctionExport("GetLightSourceWidth", function(lightid)
+	if lightid == nil then
 		return false
 	end
 
@@ -385,10 +616,38 @@ AddFunctionExport("SetLightStreamRadius", function(lightid, radius)
 		return false
 	end
 
-	SetObjectStreamDistance(lightid, radius)
-	StreamedLights[lightid].radius = radius
+	if StreamedLights[lightid].lighttype ~= "RECTLIGHT" then
+		return false
+	end
+
+	return StreamedLights[lightid].source_width
+end)
+
+AddFunctionExport("SetLightStreamRadius", function(lightid, distance)
+	if lightid == nil or distance == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	SetObjectStreamDistance(lightid, distance)
+	StreamedLights[lightid].stream_distance = distance
 	SetObjectPropertyValue(lightid, "_lightStream", StreamedLights[lightid])
 	return true
+end)
+
+AddFunctionExport("GetLightStreamRadius", function(lightid)
+	if lightid == nil then
+		return false
+	end
+
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+
+	return StreamedLights[lightid].stream_distance
 end)
 
 AddFunctionExport("SetLightDimension", function(lightid, dimension)
@@ -439,6 +698,28 @@ AddFunctionExport("GetLightLocation", function(lightid)
 
 	local x, y, z = GetObjectLocation(lightid)
 	return x, y, z
+end)
+
+AddFunctionExport("SetLightRotation", function(lightid, rx, ry, rz)
+	if lightid == nil or rx == nil or ry == nil or rz == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	SetObjectRotation(lightid, rx, ry, rz)
+	return true
+end)
+
+AddFunctionExport("GetLightRotation", function(lightid)
+	if lightid == nil then
+		return false
+	end
+	if StreamedLights[lightid] == nil then
+		return false
+	end
+	local rx, ry, rz = GetObjectRotation(lightid)
+	return rx, ry, rz
 end)
 
 AddFunctionExport("SetLightRandomLoopColor", function(lightid, interval)
@@ -539,7 +820,7 @@ AddFunctionExport("SetLightFlash", function(lightid, interval)
 	local currentcolor = StreamedLights[lightid].color
 	local offcolor = RGB(0, 0, 0)
 
-	flashinterval = CreateTimer(function()
+	local flashinterval = CreateTimer(function()
 		if StreamedLights[lightid].color == currentcolor then
 			StreamedLights[lightid].color = offcolor
 		else
