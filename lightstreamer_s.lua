@@ -155,7 +155,11 @@ AddFunctionExport("DestroyLight", function(lightid)
 end)
 
 AddFunctionExport("GetAllLights", function()
-	return StreamedLights
+	local _table = {}
+	for k,v in pairs(StreamedLights) do
+		table.insert(_table, k)
+	end
+	return _table
 end)
 
 AddFunctionExport("IsValidLight", function(lightid)
