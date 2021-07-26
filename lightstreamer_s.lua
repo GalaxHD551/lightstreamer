@@ -20,7 +20,7 @@ AddEvent("OnPackageStop", function()
 
 end)
 
-AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color, intensity, streamradius)
+AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color, intensity, distance)
 
 	if lighttype == nil or x == nil or y == nil or z == nil then
 		return false
@@ -31,7 +31,7 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 	rz = rz or 0.0
 	color = color or RGB(255, 255, 255)
 	intensity = intensity or 5000.0
-	stream_distance = streamradius or 12000.0
+	stream_distance = distance or 12000.0
 
 	-- Create an object that will help us to attach the light to it
 	local lightid = CreateObject(1, x, y, z)
@@ -627,7 +627,7 @@ AddFunctionExport("GetLightSourceWidth", function(lightid)
 	return StreamedLights[lightid].source_width
 end)
 
-AddFunctionExport("SetLightStreamRadius", function(lightid, distance)
+AddFunctionExport("SetLightStreamDistance", function(lightid, distance)
 	if lightid == nil or distance == nil then
 		return false
 	end
