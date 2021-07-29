@@ -1,10 +1,10 @@
 --[[
-This script is a modification of the soundstreamer package : 
+This script is an heavy modification of the soundstreamer package : 
 https://github.com/BlueMountainsIO/OnsetLuaScripts/tree/master/soundstreamer
 Modified By GalaxHD551
 ]]--
 
-local StreamedLights = { }
+local StreamedLights = {}
 
 AddEvent("OnPackageStart", function()
 	math.randomseed(os.time())
