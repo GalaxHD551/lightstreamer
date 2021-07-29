@@ -1,10 +1,11 @@
 --[[
-This script is a modification of the soundstreamer package : 
+This script is an heavy modification of the soundstreamer package : 
 https://github.com/BlueMountainsIO/OnsetLuaScripts/tree/master/soundstreamer
 Modified By GalaxHD551
 ]]--
 
-local StreamedLights = { }
+local StreamedLights = {}
+local Slights = {}
 
 AddEvent("OnPackageStop", function()
 	StreamedLights = nil
@@ -43,6 +44,7 @@ AddEvent("OnObjectStreamIn", function(object)
 			return
 		else
 			SetUpLight(object, _lightStream)
+			table.insert(Slights, object)
 		end
 
 		if IsGameDevMode() then
@@ -59,6 +61,13 @@ AddEvent("OnObjectStreamOut", function(object)
 			AddPlayerChat("STREAMOUT: Server Light "..object)
 		end
 		StreamedLights[object] = nil
+		
+		for k, v in pairs(Slights) do
+			if(object == v) then
+				table.remove(Slights, k)
+				break
+			end
+		end
 	end
 end)
 
@@ -101,11 +110,7 @@ function SetUpLight(object, _lightStream)
 end
 
 AddFunctionExport("GetStreamedLights", function()
-	local _table = {}
-	for k, v in ipairs(StreamedLights) do
-		table.insert(_table, k)
-	end
-	return  _table
+	return Slights
 end)
 
 AddFunctionExport("IsValidLight", function(lightid)
