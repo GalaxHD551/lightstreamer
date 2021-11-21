@@ -78,6 +78,29 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 	return lightid
 end)
 
+AddFunctionExport("CreateLightDuplication", function (lightid)
+
+	if lightid == nil then
+		return false
+	end
+
+	local x, y, z = GetObjectLocation(lightid)
+	local newlight = CreateObject(1, x, y, z)
+
+	if lightid == false then
+		return false
+	end
+
+	local rx, ry, rz = GetObjectRotation(lightid)
+	SetObjectRotation(newlight, rx, ry, rz)
+
+	SetObjectPropertyValue(newlight, "_lightStream", StreamedLights[lightid])
+
+	StreamedLights[newlight] = StreamedLights[lightid]
+
+	return newlight
+end)
+
 AddFunctionExport("SetLightAttached", function(lightid, attachtype, attachid, x, y, z, rx, ry, rz, SocketName)
 
 	if lightid == nil or attachtype == nil or attachid == nil then
