@@ -1,6 +1,6 @@
 {
 	"author": "GalaxHD551",
-	"version": "1.2.1",
+	"version": "1.3",
 	"server_scripts": [
 		"lightstreamer_s.lua"
 	],
