@@ -78,7 +78,7 @@ AddFunctionExport("CreateLight", function (lighttype, x, y, z, rx, ry, rz, color
 	return lightid
 end)
 
-AddFunctionExport("CreateLightDuplication", function (lightid)
+AddFunctionExport("DuplicateLight", function (lightid)
 
 	if lightid == nil then
 		return false
